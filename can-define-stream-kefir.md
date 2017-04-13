@@ -1,8 +1,8 @@
-@module {undefined} can-define-stream
+@module {undefined} can-define-stream-kefir
 @parent can-ecosystem
-@group can-define-stream/behaviors 0 behaviors
-@group can-define-stream/DefineMap.prototype 1 DefineMap.prototype
-@group can-define-stream/DefineList.prototype 2 DefineList.prototype
+@group can-define-stream-kefir/behaviors 0 behaviors
+@group can-define-stream-kefir/DefineMap.prototype 1 DefineMap.prototype
+@group can-define-stream-kefir/DefineList.prototype 2 DefineList.prototype
 @package ./package.json
 
 Define property values using streams.  [can-stream](https://github.com/canjs/can-stream) is used internally
@@ -10,13 +10,13 @@ to provide the stream functionality.
 
 @signature `undefined`
 
-  The `can-define-stream` module doesn't export anything.  Instead it changes
-  [can-define] to support the [can-define-stream.stream] behavior and
+  The `can-define-stream-kefir` module doesn't export anything.  Instead it changes
+  [can-define] to support the [can-define-stream-kefir.stream] behavior and
   [can-define/map/map] and [can-define/list/list] to have a `stream` method that's
   a shorthand for [can-stream.toStream] with 'this' (the map or list instance) passed as the first argument.
 
   ```js
-  require("can-define-stream");
+  require("can-define-stream-kefir");
   var DefineMap = require("can-define/map/map");
 
   var Person = DefineMap.extend({

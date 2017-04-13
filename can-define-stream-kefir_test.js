@@ -1,9 +1,9 @@
 var QUnit = require('steal-qunit');
 var DefineMap = require('can-define/map/map');
 var DefineList = require('can-define/list/list');
-require('can-define-stream');
+var canDefineStreamKefir = require('can-define-stream-kefir');
 
-QUnit.module('can-define-stream');
+QUnit.module('can-define-stream-kefir');
 
 test('Stream behavior on multiple properties with merge', function() {
 
@@ -16,13 +16,15 @@ test('Stream behavior on multiple properties with merge', function() {
 		bar: { type: 'string', value: 'bar' },
 		baz: {
 			type: 'string',
-		    stream( stream ) {
+		    stream: function( stream ) {
 				var fooStream = this.stream('.foo');
 				var barStream = this.stream('.bar');
 				return stream.merge(fooStream).merge(barStream);
 		    }
 		}
 	});
+
+	canDefineStreamKefir(MyMap);
 
 	var map = new MyMap();
 
@@ -60,14 +62,14 @@ test('Test if streams are memory safe', function() {
 		bar: { type: 'string', value: 'bar' },
 		baz: {
 			type: 'string',
-		    stream( stream ) {
+		    stream: function( stream ) {
 				var fooStream = this.stream('.foo');
 				var barStream = this.stream('.bar');
 				return stream.merge(fooStream).merge(barStream);
 		    }
 		}
 	});
-
+	canDefineStreamKefir(MyMap);
 	var map = new MyMap();
 
 	QUnit.equal(0, map._bindings, 'Should have no bindings');
@@ -100,7 +102,7 @@ test('Keep track of change counts on stream', function(){
           }
       }
     });
-
+	canDefineStreamKefir(Person);
     var me = new Person({first: 'Justin', last: 'Meyer'});
 
 	//this increases the count.. should it?
@@ -129,7 +131,7 @@ test('Update map property based on stream value', function() {
 	    	}
 	  	}
 	});
-
+	canDefineStreamKefir(Person);
 	var me = new Person({name: "James"});
 
 	me.on("lastValidName", function(lastValid){
@@ -150,6 +152,8 @@ test('Update map property based on stream value', function() {
 
 test('Stream on DefineList', function() {
 	var expectedLength;
+
+	canDefineStreamKefir(DefineList);
 
 	var people = new DefineList([
 	  { first: "Justin", last: "Meyer" },
