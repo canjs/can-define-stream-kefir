@@ -72,16 +72,20 @@ test('Test if streams are memory safe', function() {
 	canDefineStreamKefir(MyMap);
 	var map = new MyMap();
 
-	QUnit.equal(0, map._bindings, 'Should have no bindings');
+	QUnit.equal(map.__bindEvents._lifecycleBindings, undefined, 'Should have no bindings');
 
 
-	map.on("baz", function(ev, newVal, oldVal){});
+	map.on("baz", function(ev, newVal, oldVal){
+		console.log("newVal", newVal); //->output: obaid
+	});
 
-	QUnit.equal(3, map._bindings, 'Should have 3 bindings');
+	map.foo = "obaid";
+
+	QUnit.equal(map.__bindEvents._lifecycleBindings, 3, 'Should have 3 bindings');
 
 	map.off('baz');
 
-	QUnit.equal(0, map._bindings, 'Should reset the bindings');
+	QUnit.equal(map.__bindEvents._lifecycleBindings, 0, 'Should reset the bindings');
 });
 
 test('Keep track of change counts on stream', function(){
