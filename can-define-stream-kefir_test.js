@@ -127,13 +127,13 @@ test('Update map property based on stream value', function() {
 	var expected;
 	var Person = DefineMap.extend({
 		name: "string",
-	  	lastValidName: {
+		lastValidName: {
 	    	stream: function(){
-	      		return this.stream(".name").filter(function(name){
+				return this.stream(".name").filter(function(name){
 	        		return name.indexOf(" ") >= 0;
-		  		});
+				});
 	    	}
-	  	}
+		}
 	});
 	canDefineStreamKefir(Person);
 	var me = new Person({name: "James"});

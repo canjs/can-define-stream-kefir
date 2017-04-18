@@ -1,7 +1,7 @@
 @module {undefined} can-define-stream-kefir
 @parent can-ecosystem
 @group can-define-stream-kefir/behaviors 0 behaviors
-@group can-define-stream-kefir/DefineMap.prototype 1 DefineMap.prototype
+@group can-define-stream-kefir/DefineMap.prototype 2 DefineMap.prototype
 @group can-define-stream-kefir/DefineList.prototype 2 DefineList.prototype
 @package ./package.json
 
