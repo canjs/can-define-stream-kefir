@@ -14,12 +14,11 @@
     "testee": "testee test.html --browsers firefox",
     "test": "npm run jshint && npm run testee",
     "jshint": "jshint *.js --config",
+    "release:pre": "npm version prerelease && npm publish --tag pre",
     "release:patch": "npm version patch && npm publish",
     "release:minor": "npm version minor && npm publish",
     "release:major": "npm version major && npm publish",
-    "document": "bit-docs",
-    "develop": "done-serve --static --develop --port 8080",
-    "release:pre": "npm version prerelease && npm publish"
+    "develop": "done-serve --static --develop --port 8080"
   },
   "main": "can-define-stream-kefir",
   "keywords": [
@@ -36,15 +35,13 @@
   "dependencies": {
     "can-compute": "^3.0.0",
     "can-define": "^1.0.0",
-    "can-define-stream": "github:canjs/can-define-stream#mixin",
+    "can-define-stream": "^0.1.0-pre.2",
     "can-observation": "^3.0.0",
-    "can-stream": "github:canjs/can-stream#mixin",
-    "can-stream-kefir": "github:canjs/can-stream-kefir#mixin",
+    "can-stream-kefir": "^0.2.1-0",
     "can-util": "^3.0.0",
     "kefir": "^3.5.1"
   },
   "devDependencies": {
-    "bit-docs": "0.0.6",
     "done-serve": "^0.2.4",
     "donejs-cli": "^0.9.5",
     "generator-donejs": "^0.9.0",
@@ -57,23 +54,5 @@
   "repository": {
     "type": "git",
     "url": "git://github.com/canjs/can-define-stream-kefir.git"
-  },
-  "bit-docs": {
-    "dependencies": {
-      "bit-docs-glob-finder": "^0.0.5",
-      "bit-docs-dev": "^0.0.3",
-      "bit-docs-js": "^0.0.3",
-      "bit-docs-generate-readme": "^0.0.8"
-    },
-    "glob": {
-      "pattern": "**/*.{js,md}",
-      "ignore": "node_modules/**/*"
-    },
-    "readme": {
-      "apis": [
-        "can-define-stream-kefir"
-      ]
-    },
-    "parent": "can-define-stream-kefir"
   }
 }

@@ -5,7 +5,7 @@ var canDefineStreamKefir = require('can-define-stream-kefir');
 
 QUnit.module('can-define-stream-kefir');
 
-test('Stream behavior on multiple properties with merge', function() {
+test('Stream behavior on multiple properties with merge', 8, function() {
 
 	var expectedNewVal,
 		expectedOldVal,
@@ -74,16 +74,16 @@ test('Test if streams are memory safe', function() {
 
 	QUnit.equal(map.__bindEvents._lifecycleBindings, undefined, 'Should have no bindings');
 
-
-	map.on("baz", function(ev, newVal, oldVal){
+	var handler = function(ev, newVal, oldVal){
 		console.log("newVal", newVal); //->output: obaid
-	});
+	};
+	map.on("baz", handler);
 
 	map.foo = "obaid";
 
 	QUnit.equal(map.__bindEvents._lifecycleBindings, 3, 'Should have 3 bindings');
 
-	map.off('baz');
+	map.off('baz',handler);
 
 	QUnit.equal(map.__bindEvents._lifecycleBindings, 0, 'Should reset the bindings');
 });
@@ -157,9 +157,11 @@ test('Update map property based on stream value', function() {
 test('Stream on DefineList', function() {
 	var expectedLength;
 
-	canDefineStreamKefir(DefineList);
+	var People = DefineList.extend({});
 
-	var people = new DefineList([
+	canDefineStreamKefir(People);
+
+	var people = new People([
 	  { first: "Justin", last: "Meyer" },
 	  { first: "Paula", last: "Strozak" }
 	]);
@@ -178,4 +180,34 @@ test('Stream on DefineList', function() {
 
 	expectedLength = 2;
 	people.pop();
+});
+
+
+test('Can instantiate define-map instances with properties that have stream definitions.', function() {
+	var Locator = DefineMap.extend({
+		state: "string",
+		city: {
+		   stream: function(setStream) {
+		       return this.stream(".state").map(function(){
+		           return null;
+		       }).merge(setStream);
+		   }
+		}
+	});
+	canDefineStreamKefir(Locator);
+
+	var locator = new Locator({
+	    state: 'IL',
+	    city: 'Chitown'
+	});
+
+	QUnit.equal(locator.state, 'IL', 'State in tact, no errors');
+	QUnit.equal(typeof locator.city, 'undefined', 'Derived value ignored until bound.');
+
+	locator.on("city", function(){});
+
+	QUnit.equal(locator.city, "Chitown", "can still get initial value");
+
+	locator.state = 'FL';
+	QUnit.equal(locator.city, null, 'Derived value set.');
 });
