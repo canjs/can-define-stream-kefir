@@ -1,15 +1,22 @@
 @module {Object} can-define-stream-kefir can-define-stream-kefir
 @parent can-ecosystem
+@group can-define-stream-kefir.types types
+@group can-define-stream-kefir.fns DefineMap methods
 @package ../package.json
 
-@description Exports a function that takes a Type [can-define/map/map] or [can-define/list/list] and uses [can-stream-kefir] to create a streaming object
+@description Export a function that takes a [can-define/map/map] or [can-define/list/list] constructor and uses [can-stream-kefir] to create streamable properties.
 
-@type {Object}
+@signature `canDefineStreamKefir(DefineMap)`
 
-The `can-define-stream-kefir` module exports methods useful for converting observable values like [can-compute]s into streams.
+The `can-define-stream-kefir` module exports a function that will take a [can-define-stream-kefir.types.DefineMap DefineMap] or [can-define-stream-kefir.types.DefineList DefineList] constructor and add the following methods using the [can-stream-kefir] stream implementation:
+
+- .toStream(observable, propAndOrEvent[,event])
+- .toStreamFromProperty(property)
+- .toStreamFromEvent(property)
+- .toCompute([can-stream.types.makeStream makeStream(setStream)], context):compute
 
 ```js
-var canDefineStream = require("can-define-stream-kefir");
+var canDefineStreamKefir = require("can-define-stream-kefir");
 var DefineMap = require("can-define/map/map");
 
 var Person = DefineMap.extend({
@@ -22,21 +29,20 @@ var Person = DefineMap.extend({
     },
     fullNameChangeCount: {
         stream: function() {
-            return this.stream(".fullName").scan(function(last) {
+            return this.toStream(".fullName").scan(function(last) {
                 return last + 1;
             }, 0);
         }
     }
 });
 
-canDefineStream(Person);
+canDefineStreamKefir(Person);
 
 var me = new Person({name: "Justin", last: "Meyer"});
 
 me.on("fullNameChangeCount", function(ev, newVal) {
     console.log(newVal);
 });
-
 
 me.fullNameChangeCount //-> 0
 
@@ -54,20 +60,21 @@ For example:
 __Update map property based on stream value__
 
 ```js
-var canDefineStream = require("can-define-stream-kefir");
+var DefineMap = require('can-define/map/map');
+var canDefineStreamKefir = require("can-define-stream-kefir");
 
 var Person = DefineMap.extend({
     name: "string",
     lastValidName: {
         stream: function() {
-            return this.stream(".name").filter(function(name) {
+            return this.toStream(".name").filter(function(name) { // Using prop name
                 return name.indexOf(" ") >= 0;
             });
         }
     }
 });
 
-canDefineStream(Person);
+canDefineStreamKefir(Person);
 
 var me = new Person({name: "James"});
 
@@ -77,21 +84,23 @@ me.name = "JamesAtherton"; //lastValidName -> undefined
 me.name = "James Atherton"; //lastValidName -> James Atherton
 
 ```
+
 __Stream on DefineList__
 
 ```js
-var canDefineStream = require("can-define-stream-kefir");
+var DefineList = require('can-define/list/list');
+var canDefineStreamKefir = require("can-define-stream-kefir");
 
 var PeopleList = DefineList.extend({});
 
-canDefineStream(PeopleList);
+canDefineStreamKefir(PeopleList);
 
 var people = new PeopleList([
     { first: "Justin", last: "Meyer" },
     { first: "Paula", last: "Strozak" }
 ]);
 
-var stream = people.stream('length');
+var stream = people.toStream('length'); // Using event name
 
 stream.onValue(function(val) {
     val //-> 2, 3
@@ -101,5 +110,4 @@ people.push({
     first: 'Obaid',
     last: 'Ahmed'
 }); //-> stream.onValue -> 3
-
 ```
