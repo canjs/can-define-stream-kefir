@@ -37,13 +37,11 @@
     "can-define": "^1.0.0",
     "can-define-stream": "^0.1.0",
     "can-observation": "^3.0.0",
-    "can-stream": "^0.0.5",
     "can-stream-kefir": "^0.2.1",
     "can-util": "^3.0.0",
     "kefir": "^3.5.1"
   },
   "devDependencies": {
-    "bit-docs": "0.0.7",
     "done-serve": "^0.2.4",
     "donejs-cli": "^0.9.5",
     "generator-donejs": "^0.9.0",
