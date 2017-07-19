@@ -17,8 +17,7 @@
     "release:pre": "npm version prerelease && npm publish --tag pre",
     "release:patch": "npm version patch && npm publish",
     "release:minor": "npm version minor && npm publish",
-    "release:major": "npm version major && npm publish",
-    "develop": "done-serve --static --develop --port 8080"
+    "release:major": "npm version major && npm publish"
   },
   "main": "can-define-stream-kefir",
   "keywords": [
@@ -33,23 +32,20 @@
     "npmAlgorithm": "flat"
   },
   "dependencies": {
-    "can-compute": "^3.1.0-pre.9",
-    "can-define": "^1.2.0-pre.4",
-    "can-define-stream": "^0.2.0-pre.0",
-    "can-observation": "^3.2.0-pre.11",
-    "can-stream-kefir": "^0.3.0-pre.0",
-    "can-util": "^3.9.0-pre.4",
+    "can-compute": "^3.2.0",
+    "can-define": "^1.2.0",
+    "can-define-stream": "^0.2.1",
+    "can-observation": "^3.2.0",
+    "can-stream-kefir": "^0.3.0",
+    "can-util": "^3.9.0",
     "kefir": "^3.5.1"
   },
   "devDependencies": {
-    "done-serve": "^0.2.4",
-    "donejs-cli": "^0.9.5",
-    "generator-donejs": "^0.9.0",
     "jshint": "^2.9.1",
     "steal": "^1.0.6",
     "steal-qunit": "^1.0.0",
     "steal-tools": "^1.0.1",
-    "testee": "^0.3.0"
+    "testee": "^0.7.0"
   },
   "repository": {
     "type": "git",
