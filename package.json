@@ -42,7 +42,7 @@
     "kefir": "^3.5.1"
   },
   "devDependencies": {
-    "detect-cyclic-packages": "^1.0.0",
+    "detect-cyclic-packages": "^1.0.1",
     "jshint": "^2.9.1",
     "steal": "^1.0.6",
     "steal-qunit": "^1.0.0",
