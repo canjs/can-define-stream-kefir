@@ -12,12 +12,13 @@
     "preversion": "npm test",
     "postversion": "git push --tags && git push",
     "testee": "testee test.html --browsers firefox",
-    "test": "npm run jshint && npm run testee",
+    "test": "npm run detect-cycle && npm run jshint && npm run testee",
     "jshint": "jshint *.js --config",
     "release:pre": "npm version prerelease && npm publish --tag pre",
     "release:patch": "npm version patch && npm publish",
     "release:minor": "npm version minor && npm publish",
-    "release:major": "npm version major && npm publish"
+    "release:major": "npm version major && npm publish",
+    "detect-cycle": "detect-cyclic-packages"
   },
   "main": "can-define-stream-kefir",
   "keywords": [
@@ -41,6 +42,7 @@
     "kefir": "^3.5.1"
   },
   "devDependencies": {
+    "detect-cyclic-packages": "^1.0.0",
     "jshint": "^2.9.1",
     "steal": "^1.0.6",
     "steal-qunit": "^1.0.0",
