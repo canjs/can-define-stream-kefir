@@ -1,5 +1,6 @@
 @module {Object} can-define-stream-kefir can-define-stream-kefir
-@parent can-ecosystem
+@parent can-observables
+@collection can-ecosystem
 @group can-define-stream-kefir.types types
 @group can-define-stream-kefir.fns DefineMap methods
 @package ../package.json
