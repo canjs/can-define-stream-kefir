@@ -3,6 +3,24 @@ var DefineMap = require('can-define/map/map');
 var DefineList = require('can-define/list/list');
 var canDefineStreamKefir = require('can-define-stream-kefir');
 
+var canSymbol = require('can-symbol');
+var metaSymbol = canSymbol.for('can.meta');
+
+var poll = function poll(fn, callback, timeout, interval) {
+	var endTime = Number(new Date()) + (timeout || 2000);
+	interval = interval || 100;
+
+	(function p() {
+		if (fn()) {
+			callback();
+		} else if (Number(new Date()) < endTime) {
+			setTimeout(p, interval);
+		} else {
+			callback();
+		}
+	})();
+};
+
 QUnit.module('can-define-stream-kefir');
 
 test('Stream behavior on multiple properties with merge', 8, function() {
@@ -55,37 +73,46 @@ test('Stream behavior on multiple properties with merge', 8, function() {
 	map.baz = 'new baz';
 });
 
-test('Test if streams are memory safe', function() {
+QUnit.test("Test if streams are memory safe", function(assert) {
+	var done = assert.async();
 
 	var MyMap = DefineMap.extend({
-		foo: 'string',
-		bar: { type: 'string', value: 'bar' },
+		foo: "string",
+		bar: { type: "string", value: "bar" },
 		baz: {
-			type: 'string',
-		    stream: function( stream ) {
-				var fooStream = this.stream('.foo');
-				var barStream = this.stream('.bar');
+			type: "string",
+			stream: function(stream) {
+				var fooStream = this.stream(".foo");
+				var barStream = this.stream(".bar");
 				return stream.merge(fooStream).merge(barStream);
-		    }
+			}
 		}
 	});
 	canDefineStreamKefir(MyMap);
-	var map = new MyMap();
 
-	QUnit.equal(map.__bindEvents._lifecycleBindings, undefined, 'Should have no bindings');
-
-	var handler = function(ev, newVal, oldVal){
-		//->output: obaid
+	var getNumberOfBindings = function getNumberOfBindings(map) {
+		var meta = map[metaSymbol];
+		return meta && meta.handlers && meta.handlers.get([]).length;
 	};
+
+	var map = new MyMap();
+	assert.equal(getNumberOfBindings(map), undefined, "Should have no bindings");
+
+	var handler = function handler(ev, newVal, oldVal) {};
 	map.on("baz", handler);
-
 	map.foo = "obaid";
+	assert.equal(getNumberOfBindings(map), 3, "Should have 3 bindings");
 
-	QUnit.equal(map.__bindEvents._lifecycleBindings, 3, 'Should have 3 bindings');
-
-	map.off('baz',handler);
-
-	QUnit.equal(map.__bindEvents._lifecycleBindings, 0, 'Should reset the bindings');
+	map.off("baz", handler);
+	poll(
+		function() {
+			return getNumberOfBindings(map) === 0;
+		},
+		function() {
+			assert.equal(getNumberOfBindings(map), 0, "Should reset the bindings");
+			done();
+		}
+	);
 });
 
 test('Keep track of change counts on stream', function(){
@@ -182,32 +209,38 @@ test('Stream on DefineList', function() {
 	people.pop();
 });
 
-
-test('Can instantiate define-map instances with properties that have stream definitions.', function() {
+QUnit.test("Can instantiate define-map instances with properties that have stream definitions.", function(assert) {
 	var Locator = DefineMap.extend({
 		state: "string",
 		city: {
-		   stream: function(setStream) {
-		       return this.stream(".state").map(function(){
-		           return null;
-		       }).merge(setStream);
-		   }
+			stream: function(setStream) {
+				return this.stream(".state")
+					.map(function() {
+						return null;
+					})
+					.merge(setStream);
+			}
 		}
 	});
 	canDefineStreamKefir(Locator);
 
 	var locator = new Locator({
-	    state: 'IL',
-	    city: 'Chitown'
+		state: "IL",
+		city: "Chitown"
 	});
 
-	QUnit.equal(locator.state, 'IL', 'State in tact, no errors');
-	QUnit.equal(typeof locator.city, 'undefined', 'Derived value ignored until bound.');
+	assert.equal(locator.state, "IL", "State in tact, no errors");
+	assert.equal(
+		typeof locator.city,
+		"undefined",
+		"Derived value ignored until bound."
+	);
 
-	locator.on("city", function(){});
+	locator.on("city", function() {});
+	assert.equal(locator.city, "Chitown", "can still get initial value");
 
-	QUnit.equal(locator.city, "Chitown", "can still get initial value");
-
-	locator.state = 'FL';
-	QUnit.equal(locator.city, null, 'Derived value set.');
+	locator.state = "FL";
+	assert.equal(locator.city, null, "Derived value set.");
 });
+
+
