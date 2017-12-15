@@ -242,5 +242,3 @@ QUnit.test("Can instantiate define-map instances with properties that have strea
 	locator.state = "FL";
 	assert.equal(locator.city, null, "Derived value set.");
 });
-
-
