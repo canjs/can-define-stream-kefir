@@ -75,7 +75,7 @@ test('Test if streams are memory safe', function() {
 	QUnit.equal(map.__bindEvents._lifecycleBindings, undefined, 'Should have no bindings');
 
 	var handler = function(ev, newVal, oldVal){
-		console.log("newVal", newVal); //->output: obaid
+		//->output: obaid
 	};
 	map.on("baz", handler);
 
