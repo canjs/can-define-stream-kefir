@@ -32,12 +32,12 @@
     ]
   },
   "dependencies": {
-    "can-compute": "^4.0.0-pre.6",
-    "can-define": "^2.0.0-pre.21",
-    "can-define-stream": "^1.0.0-pre.0",
+    "can-compute": "^4.0.0",
+    "can-define": "^2.0.0",
+    "can-define-stream": "^1.0.0",
     "can-namespace": "^1.0.0",
-    "can-observation": "^4.0.0-pre.24",
-    "can-stream-kefir": "^1.0.0-pre.0",
+    "can-observation": "^4.0.0",
+    "can-stream-kefir": "^1.0.0",
     "kefir": "^3.8.0"
   },
   "devDependencies": {
