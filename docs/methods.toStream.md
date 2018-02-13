@@ -7,11 +7,11 @@
 
 Creates a stream that gets updated whenever the property value changes or event is triggered.
 
-```js
-var DefineMap = require('can-define/map/map');
-var canDefineStreamKefir = require("can-define-stream-kefir");
+```javascript
+import DefineMap from 'can-define/map/map';
+import canDefineStreamKefir from "can-define-stream-kefir";
 
-var Person = DefineMap.extend({
+const Person = DefineMap.extend({
     name: "string",
     lastValidName: {
         stream: function() {
@@ -24,7 +24,7 @@ var Person = DefineMap.extend({
 
 canDefineStreamKefir(Person);
 
-var me = new Person({name: "James"});
+const me = new Person({name: "James"});
 
 me.on("lastValidName", function(lastValid) {});
 

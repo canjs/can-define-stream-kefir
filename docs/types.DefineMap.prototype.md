@@ -7,17 +7,17 @@
 
 Creates a DefineMap constructor
 
-```js
+```javascript
 import DefineMap from 'can-define/map/map';
 
-var Person = DefineMap.extend({
-	first: 'string',
-	last: 'string',
-	fullName: {
-		get() {
-			return this.first + " " + this.last;
-		}
-	}
+const Person = DefineMap.extend({
+  first: 'string',
+  last: 'string',
+  fullName: {
+    get() {
+      return this.first + " " + this.last;
+    }
+  }
 });
 ```
 

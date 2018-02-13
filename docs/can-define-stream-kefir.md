@@ -16,11 +16,11 @@ The `can-define-stream-kefir` module exports a function that will take a [can-de
 - .toStreamFromEvent(property)
 - .toCompute([can-stream.types.makeStream makeStream(setStream)], context):compute
 
-```js
-var canDefineStreamKefir = require("can-define-stream-kefir");
-var DefineMap = require("can-define/map/map");
+```javascript
+import canDefineStreamKefir from "can-define-stream-kefir";
+import DefineMap from "can-define/map/map";
 
-var Person = DefineMap.extend({
+const Person = DefineMap.extend({
     first: "string",
     last: "string",
     fullName: {
@@ -39,7 +39,7 @@ var Person = DefineMap.extend({
 
 canDefineStreamKefir(Person);
 
-var me = new Person({name: "Justin", last: "Meyer"});
+const me = new Person({name: "Justin", last: "Meyer"});
 
 me.on("fullNameChangeCount", function(ev, newVal) {
     console.log(newVal);
@@ -60,11 +60,11 @@ For example:
 
 __Update map property based on stream value__
 
-```js
-var DefineMap = require('can-define/map/map');
-var canDefineStreamKefir = require("can-define-stream-kefir");
+```javascript
+import DefineMap from 'can-define/map/map';
+import canDefineStreamKefir from "can-define-stream-kefir";
 
-var Person = DefineMap.extend({
+const Person = DefineMap.extend({
     name: "string",
     lastValidName: {
         stream: function() {
@@ -77,7 +77,7 @@ var Person = DefineMap.extend({
 
 canDefineStreamKefir(Person);
 
-var me = new Person({name: "James"});
+const me = new Person({name: "James"});
 
 me.on("lastValidName", function(lastValid) {});
 
@@ -88,20 +88,20 @@ me.name = "James Atherton"; //lastValidName -> James Atherton
 
 __Stream on DefineList__
 
-```js
-var DefineList = require('can-define/list/list');
-var canDefineStreamKefir = require("can-define-stream-kefir");
+```javascript
+import DefineList from 'can-define/list/list';
+import canDefineStreamKefir from "can-define-stream-kefir";
 
-var PeopleList = DefineList.extend({});
+const PeopleList = DefineList.extend({});
 
 canDefineStreamKefir(PeopleList);
 
-var people = new PeopleList([
+const people = new PeopleList([
     { first: "Justin", last: "Meyer" },
     { first: "Paula", last: "Strozak" }
 ]);
 
-var stream = people.toStream('length'); // Using event name
+const stream = people.toStream('length'); // Using event name
 
 stream.onValue(function(val) {
     val //-> 2, 3
