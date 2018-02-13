@@ -7,17 +7,17 @@
 
 Creates a DefineList constructor
 
-```javascript
+```js
 import DefineMap from 'can-define/map/map';
 import DefineList from 'can-define/list/list';
 
 const People = DefineList.extend({
-  '#': {
-    type: {
-      first: 'string',
-      last: 'string'
-    }
-  }
+	'#': {
+		type: {
+			first: 'string',
+			last: 'string'
+		}
+	}
 });
 ```
 

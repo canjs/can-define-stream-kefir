@@ -7,19 +7,19 @@
 
 Creates a stream from a property that gets updated whenever the property value changes.
 
-```javascript
+```js
 import DefineMap from 'can-define/map/map';
 import canDefineStreamKefir from "can-define-stream-kefir";
 
 const Person = DefineMap.extend({
-    name: "string",
-    lastValidName: {
-        stream: function() {
-            return this.toStreamFromProperty(".name").filter(function(name) { // using propName
-                return name.indexOf(" ") >= 0;
-            });
-        }
-    }
+	name: "string",
+	lastValidName: {
+		stream: function() {
+			return this.toStreamFromProperty(".name").filter(function(name) { // using propName
+				return name.indexOf(" ") >= 0;
+			});
+		}
+	}
 });
 
 canDefineStreamKefir(Person);
