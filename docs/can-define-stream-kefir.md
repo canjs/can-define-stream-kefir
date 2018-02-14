@@ -20,7 +20,7 @@ The `can-define-stream-kefir` module exports a function that will take a [can-de
 import canDefineStreamKefir from "can-define-stream-kefir";
 import DefineMap from "can-define/map/map";
 
-const Person = DefineMap.extend({
+const Person = DefineMap.extend( {
 	first: "string",
 	last: "string",
 	fullName: {
@@ -30,22 +30,22 @@ const Person = DefineMap.extend({
 	},
 	fullNameChangeCount: {
 		stream: function() {
-			return this.toStream(".fullName").scan(function(last) {
+			return this.toStream( ".fullName" ).scan( function( last ) {
 				return last + 1;
-			}, 0);
+			}, 0 );
 		}
 	}
-});
+} );
 
-canDefineStreamKefir(Person);
+canDefineStreamKefir( Person );
 
-const me = new Person({name: "Justin", last: "Meyer"});
+const me = new Person( { name: "Justin", last: "Meyer" } );
 
-me.on("fullNameChangeCount", function(ev, newVal) {
-	console.log(newVal);
-});
+me.on( "fullNameChangeCount", function( ev, newVal ) {
+	console.log( newVal );
+} );
 
-me.fullNameChangeCount //-> 0
+me.fullNameChangeCount; //-> 0
 
 me.first = "Obaid"; //-> console.logs 1
 me.last = "Ahmed"; //-> console.logs 2
@@ -61,25 +61,25 @@ For example:
 __Update map property based on stream value__
 
 ```js
-import DefineMap from 'can-define/map/map';
+import DefineMap from "can-define/map/map";
 import canDefineStreamKefir from "can-define-stream-kefir";
 
-const Person = DefineMap.extend({
+const Person = DefineMap.extend( {
 	name: "string",
 	lastValidName: {
 		stream: function() {
-			return this.toStream(".name").filter(function(name) { // Using prop name
-				return name.indexOf(" ") >= 0;
-			});
+			return this.toStream( ".name" ).filter( function( name ) { // Using prop name
+				return name.indexOf( " " ) >= 0;
+			} );
 		}
 	}
-});
+} );
 
-canDefineStreamKefir(Person);
+canDefineStreamKefir( Person );
 
-const me = new Person({name: "James"});
+const me = new Person( { name: "James" } );
 
-me.on("lastValidName", function(lastValid) {});
+me.on( "lastValidName", function( lastValid ) {} );
 
 me.name = "JamesAtherton"; //lastValidName -> undefined
 me.name = "James Atherton"; //lastValidName -> James Atherton
@@ -89,26 +89,26 @@ me.name = "James Atherton"; //lastValidName -> James Atherton
 __Stream on DefineList__
 
 ```js
-import DefineList from 'can-define/list/list';
+import DefineList from "can-define/list/list";
 import canDefineStreamKefir from "can-define-stream-kefir";
 
-const PeopleList = DefineList.extend({});
+const PeopleList = DefineList.extend( {} );
 
-canDefineStreamKefir(PeopleList);
+canDefineStreamKefir( PeopleList );
 
-const people = new PeopleList([
+const people = new PeopleList( [
 	{ first: "Justin", last: "Meyer" },
 	{ first: "Paula", last: "Strozak" }
-]);
+] );
 
-const stream = people.toStream('length'); // Using event name
+const stream = people.toStream( "length" ); // Using event name
 
-stream.onValue(function(val) {
-	val //-> 2, 3
-});
+stream.onValue( function( val ) {
+	val; //-> 2, 3
+} );
 
-people.push({
-	first: 'Obaid',
-	last: 'Ahmed'
-}); //-> stream.onValue -> 3
+people.push( {
+	first: "Obaid",
+	last: "Ahmed"
+} ); //-> stream.onValue -> 3
 ```
