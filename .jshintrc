@@ -47,5 +47,6 @@
 	"phantom": true,
 	"node": true,
 	"esversion": 6,
-	"laxcomma": true
+	"laxcomma": true,
+	"validthis": true
 }
