@@ -5,8 +5,6 @@
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/canjs/can-define-stream-kefir/blob/master/LICENSE)
 [![npm version](https://badge.fury.io/js/can-define-stream-kefir.svg)](https://www.npmjs.com/package/can-define-stream-kefir)
 [![Travis build status](https://travis-ci.org/canjs/can-define-stream-kefir.svg?branch=master)](https://travis-ci.org/canjs/can-define-stream-kefir)
-[![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/canjs/can-define-stream-kefir?branch=master&svg=true)](https://ci.appveyor.com/project/matthewp/can-define-stream-kefir)
-[![Coverage status](https://coveralls.io/repos/github/canjs/can-define-stream-kefir/badge.svg?branch=master)](https://coveralls.io/github/canjs/can-define-stream-kefir?branch=master)
 [![Greenkeeper badge](https://badges.greenkeeper.io/canjs/can-define-stream-kefir.svg)](https://greenkeeper.io/)
 
 Adds the ability to define properties with streams on can-define types.
