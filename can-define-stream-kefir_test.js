@@ -23,8 +23,8 @@ var poll = function poll(fn, callback, timeout, interval) {
 
 QUnit.module('can-define-stream-kefir');
 
-test('Stream behavior on multiple properties with merge', 8, function() {
-
+QUnit.test('Stream behavior on multiple properties with merge', function(assert) {
+	assert.expect(8);
 	var expectedNewVal,
 		expectedOldVal,
 		caseName;
@@ -48,14 +48,14 @@ test('Stream behavior on multiple properties with merge', 8, function() {
 
 	map.foo = 'foo-1';
 
-	QUnit.equal( map.baz, undefined, "read value before binding");
+	assert.equal( map.baz, undefined, "read value before binding");
 
 	map.on("baz", function(ev, newVal, oldVal){
-		QUnit.equal(newVal, expectedNewVal, caseName+ " newVal");
-		QUnit.equal(oldVal, expectedOldVal, caseName+ " oldVal");
+		assert.equal(newVal, expectedNewVal, caseName+ " newVal");
+		assert.equal(oldVal, expectedOldVal, caseName+ " oldVal");
 	});
 
-	QUnit.equal( map.baz, 'bar', "read value immediately after binding");
+	assert.equal( map.baz, 'bar', "read value immediately after binding");
 
 	caseName = "setting foo";
 	expectedOldVal = 'bar';
@@ -115,7 +115,7 @@ QUnit.test("Test if streams are memory safe", function(assert) {
 	);
 });
 
-test('Keep track of change counts on stream', function(){
+QUnit.test('Keep track of change counts on stream', function(assert) {
 
 	var count;
 
@@ -138,7 +138,7 @@ test('Keep track of change counts on stream', function(){
 
 	//this increases the count.. should it?
     me.on("fullNameChangeCount", function(ev, newVal){
-		QUnit.equal(newVal, count, "Count should be " + count);
+		assert.equal(newVal, count, "Count should be " + count);
     });
 
 	count = 2;
@@ -150,7 +150,7 @@ test('Keep track of change counts on stream', function(){
 });
 
 
-test('Update map property based on stream value', function() {
+QUnit.test('Update map property based on stream value', function(assert) {
 	var expected;
 	var Person = DefineMap.extend({
 		name: "string",
@@ -166,7 +166,7 @@ test('Update map property based on stream value', function() {
 	var me = new Person({name: "James"});
 
 	me.on("lastValidName", function(lastValid){
-		QUnit.equal(lastValid.target.name, expected, "Updated name to " + expected);
+		assert.equal(lastValid.target.name, expected, "Updated name to " + expected);
 	});
 
 	me.name = "JamesAtherton";
@@ -181,7 +181,7 @@ test('Update map property based on stream value', function() {
 
 });
 
-test('Stream on DefineList', function() {
+QUnit.test('Stream on DefineList', function(assert) {
 	var expectedLength;
 
 	var People = DefineList.extend({});
@@ -196,7 +196,7 @@ test('Stream on DefineList', function() {
 	var stream = people.stream('length');
 
 	stream.onValue(function(event) {
-		QUnit.equal(event.args[0], expectedLength, 'List size changed');
+		assert.equal(event.args[0], expectedLength, 'List size changed');
 	});
 
 	expectedLength = 3;
